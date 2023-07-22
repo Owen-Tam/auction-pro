@@ -12,6 +12,7 @@ const auction = new mongoose.Schema({
   minBid: { type: Number },
   bids: [bidSchema],
   permID: { type: String },
+  active: { type: Boolean, default: true },
 });
 
 const model = mongoose.model(`AuctionModels`, auction);

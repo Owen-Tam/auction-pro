@@ -1,4 +1,4 @@
-const { SapphireClient } = require("@sapphire/framework");
+const { SapphireClient, LogLevel } = require("@sapphire/framework");
 const { GatewayIntentBits } = require("discord.js");
 const mongoose = require(`mongoose`);
 
@@ -12,6 +12,7 @@ const client = new SapphireClient({
     "GuildMessageReactions",
     "MessageContent",
   ],
+  // logger: { level: LogLevel.Debug },
   defaultCooldown: {
     delay: 1000,
     filteredCommands: [""],
@@ -25,7 +26,7 @@ mongoose
   .then(() => {
     console.log("Auction Pro is now connected to the database!");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err);
   });
 client.login(process.env.TOKEN);

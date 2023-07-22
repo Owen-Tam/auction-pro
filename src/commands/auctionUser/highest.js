@@ -1,8 +1,8 @@
 const { Command } = require("@sapphire/framework");
 const { isMessageInstance } = require("@sapphire/discord.js-utilities");
 const { ChannelType } = require("discord.js");
-const confirmEmbed = require("../helper/confirmEmbed.js");
-const auctionModel = require("../models/auctionSchema.js");
+const confirmEmbed = require("../../helper/confirmEmbed.js");
+const auctionModel = require("../../models/auctionSchema.js");
 class CreateCommand extends Command {
   constructor(context, options) {
     super(context, { ...options });

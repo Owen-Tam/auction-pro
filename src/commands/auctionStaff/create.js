@@ -1,11 +1,12 @@
 const { Command } = require("@sapphire/framework");
 const { isMessageInstance } = require("@sapphire/discord.js-utilities");
-const { ChannelType } = require("discord.js");
-const confirmEmbed = require("../helper/confirmEmbed.js");
-const auctionModel = require("../models/auctionSchema.js");
+const { ChannelType, PermissionsBitField } = require("discord.js");
+
+const confirmEmbed = require("../../helper/confirmEmbed.js");
+const auctionModel = require("../../models/auctionSchema.js");
 class CreateCommand extends Command {
   constructor(context, options) {
-    super(context, { ...options });
+    super(context, { preconditions: ["StaffOnly"] });
   }
 
   registerApplicationCommands(registry) {
@@ -94,8 +95,18 @@ class CreateCommand extends Command {
     const channel = await interaction.guild.channels.create({
       name: `${name}`,
       type: ChannelType.GuildText,
+      permissionOverwrites: [
+        {
+          id: interaction.guild.id,
+          deny: [PermissionsBitField.Flags.SendMessages],
+        },
+      ],
     });
+
     channel.setParent("1124962128680472586");
+    channel.permissionOverwrites.create(channel.guild.roles.everyone, {
+      SendMessages: false,
+    });
     const auctionEmbed = {
       color: 0x0099ff,
       title: `${name}`,
@@ -138,6 +149,7 @@ class CreateCommand extends Command {
       minBid: min,
       bids: [],
       permID: perms.id,
+      active: true,
     });
     auction.save();
     interaction.editReply({
